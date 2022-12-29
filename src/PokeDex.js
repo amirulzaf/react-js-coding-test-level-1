@@ -161,7 +161,8 @@ function PokeDex() {
           }}
           style={customStyles}
         >
-          <div>
+	  <DetailCard detail={pokemonDetail} />
+          {/* <div>
             Requirement:
             <ul>
               <li>show the sprites front_default as the pokemon image</li>
@@ -175,7 +176,7 @@ function PokeDex() {
                 modal as pdf. (images and chart must be included)
               </li>
             </ul>
-          </div>
+          </div> */}
         </Modal>
       )}
     </div>
