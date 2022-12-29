@@ -49,7 +49,12 @@ function PokeDex() {
 
   const handleChange = (e) => setSearch(e.target.value);
 
-	
+	const onClickPokemon = (url) => {
+		axios.get(url).then((response) => {
+			console.log(response.data);
+			setPokemonDetail(response.data);
+		});
+	};
 
 	const onClickNext = () => setPokemonApi(nextLink);
 
@@ -140,7 +145,7 @@ function PokeDex() {
 						{pokemons && (
 							<div className="list-container">
 								{pokemons.map((pokemon, index) => (
-									<ThumbnailCard key={index}  name={pokemon.name} />
+									<ThumbnailCard key={index} onClick={() => onClickPokemon(pokemon.url)} name={pokemon.name} />
 								))}
 							</div>
 						)}
