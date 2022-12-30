@@ -8,6 +8,7 @@
     border-radius: 10px;
     color: aliceblue;
     cursor: pointer;
+    background-color: #566574;
 }
 .item-card:hover {
     background-color: yellow;

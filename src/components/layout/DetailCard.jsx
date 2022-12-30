@@ -3,14 +3,14 @@ import './DetailCard.css';
 import { useReactToPrint } from "react-to-print";
 
 const DetailCard = (props) => {
-  const printRef = useRef(null); // ref to point when print pdf is triggered
+	const printRef = useRef(null); // ref to point when print pdf is triggered
 	const name = props?.detail?.name;
 	const image = props?.detail?.sprites?.front_default;
 	const detailStats = props?.detail?.stats;
 
-  const onDownloadPdf = useReactToPrint({
-    content: () => printRef.current
-  });
+	const onDownloadPdf = useReactToPrint({
+		content: () => printRef.current
+	});
 
 	const renderStatsTable = (stats) => (
 		<div className="table-wrapper">
@@ -54,7 +54,7 @@ const DetailCard = (props) => {
 				{renderStatsTable(detailStats)}
 			</div>
 			{renderBarChart(detailStats)}
-      <button onClick={onDownloadPdf}>Download As PDF</button>
+			<button onClick={onDownloadPdf}>Download As PDF</button>
 		</div>
 	);
 };
