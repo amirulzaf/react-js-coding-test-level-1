@@ -12,9 +12,8 @@ const inputStateReducer = (state, action) => {
   if (action.type === 'BLUR') {
     return { isTouched: true, value: state.value };
   }
-  if (action.type === 'RESET') {
-    return { isTouched: false, value: '' };
-  }
+  
+  
   return inputStateReducer;
 };
 
