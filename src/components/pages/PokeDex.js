@@ -11,10 +11,10 @@ import { MdNavigateNext, MdNavigateBefore } from "react-icons/md";
 function PokeDex() {
   const [pokemons, setPokemons] = useState([]);
   const [currentPokemonList, setCurrentPokemonList] = useState([]);
-  const [originalPokemons, setOriginalPokemons] = useState([]);
+ // const [originalPokemons, setOriginalPokemons] = useState([]);
   const [pokemonDetail, setPokemonDetail] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen,setIsOpen] = useState (false);
   const [nextLink, setNextLink] = useState("");
   const [prevLink, setPrevLink] = useState("");
   const [search, setSearch] = useState("");
@@ -35,12 +35,13 @@ function PokeDex() {
       setCurrentPokemonList(response.data.results);
       setNextLink(response.data.next);
       setPrevLink(response.data.previous);
-      setOriginalPokemons(response.data.results);
+      localStorage.setItem('OriginalPokemon',JSON.stringify(response.data.results));      
     });
     setIsLoading(false);
   }, [pokemonApi]);
-
-
+  
+  
+  
 
   useEffect(() => {
     axios.get(searchApi).then((response) => {
@@ -61,11 +62,11 @@ function PokeDex() {
       }
     }
   }, [search, searchApiFetch, currentPokemonList, pokemons]); // add pokemons to the dependency array
-
+  
 
   const handleChange = (e) => setSearch(e.target.value);
 
-
+  
   const handleSortToggle = () => {
     setSortAscending(!sortAscending);
     const sortedPokemons = pokemons.sort((a, b) => {
@@ -77,19 +78,20 @@ function PokeDex() {
     });
     setPokemons(sortedPokemons);
   };
+  
+    
 
+    const resetButton = () => {
+      const pokereset = JSON.parse(localStorage.getItem('OriginalPokemon'));
+      setPokemons(pokereset); // reset pokemons to originalPokemons
+      console.log(pokereset); // add this line
+    };
+    
+    
+    
+    
 
-
-  const resetButton = () => {
-    setPokemons(originalPokemons); // reset pokemons to originalPokemons
-    console.log(originalPokemons); // add this line
-  };
-
-
-
-
-
-
+  
 
   const onClickPokemon = (url) => {
     axios.get(url).then((response) => {
@@ -99,7 +101,7 @@ function PokeDex() {
     });
   };
 
-
+  
 
   const onClickNext = () => setPokemonApi(nextLink);
 
@@ -164,7 +166,7 @@ function PokeDex() {
           </>
         ) : (
           <>
-
+          
             <h1 className="h1-tittle">Welcome to pokedex !</h1>
             <div className="search-box">
               <MdNavigateBefore
@@ -189,8 +191,8 @@ function PokeDex() {
                 onClick={onClickNext}
               />
             </div>
-
-
+            
+            
             {notfound && (
               <p className="couldnt-find">
                 Couldn't find the searched pokemon!
@@ -209,10 +211,10 @@ function PokeDex() {
             )}
           </>
         )}
-        <div className="Chat">
-          <ChatBox openButtonLabel="Lets Chat" />
-        </div>
-
+      <div className="Chat">
+      <ChatBox openButtonLabel="Lets Chat" />
+      </div>
+    
       </header>
       {pokemonDetail && (
         <Modal
@@ -241,7 +243,7 @@ function PokeDex() {
 					</div> */}
         </Modal>
       )}
-
+      
     </div>
   );
 }

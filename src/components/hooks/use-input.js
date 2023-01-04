@@ -35,9 +35,7 @@ const useInput = (validateValue) => {
     dispatch({ type: 'BLUR' });
   };
 
-  const reset = () => {
-    dispatch({ type: 'RESET' });
-  };
+  
 
   return {
     value: inputState.value,
@@ -45,7 +43,7 @@ const useInput = (validateValue) => {
     hasError,
     valueChangeHandler,
     inputBlurHandler,
-    reset,
+    
   };
 };
 
