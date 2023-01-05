@@ -21,7 +21,7 @@ function PokeDex() {
   const [notfound, setNotfound] = useState(false);
   const [sortAscending, setSortAscending] = useState(true);
   const [pokemonApi, setPokemonApi] = useState(
-    "https://pokeapi.co/api/v2/pokem"
+    "https://pokeapi.co/api/v2/pokemon"
   );
 
   const [searchApiFetch, setSearchApiFetch] = useState([]);
