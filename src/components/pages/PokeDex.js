@@ -21,7 +21,7 @@ function PokeDex() {
   const [notfound, setNotfound] = useState(false);
   const [sortAscending, setSortAscending] = useState(true);
   const [pokemonApi, setPokemonApi] = useState(
-    "https://pokeapi.co/api/v2/pokemon"
+    "https://pokeapi.co/api/v2/pokem"
   );
 
   const [searchApiFetch, setSearchApiFetch] = useState([]);
@@ -29,15 +29,26 @@ function PokeDex() {
   const searchApi = "https://pokeapi.co/api/v2/pokemon?offset=0&limit=10000";
 
   useEffect(() => {
-    axios.get(pokemonApi).then((response) => {
+    axios.get(pokemonApi, {
+      timeout: 5000
+    }).then((response) => {
       console.log(response);
       setPokemons(response.data.results);
       setCurrentPokemonList(response.data.results);
       setNextLink(response.data.next);
       setPrevLink(response.data.previous);
       localStorage.setItem('OriginalPokemon',JSON.stringify(response.data.results));      
+      setIsLoading(false);
+    }).catch(error => {
+      if (error.code === 'ECONNABORTED') {
+        console.log('Request timed out');
+        setIsLoading(true)
+      } else {
+        console.log('Other error:', error);
+        setIsLoading(true)
+      }
     });
-    setIsLoading(false);
+    
   }, [pokemonApi]);
   
   
@@ -88,7 +99,28 @@ function PokeDex() {
     };
     
     
-    
+    const refresh = () => {
+      setIsLoading(true);
+      axios.get(pokemonApi, {
+        timeout: 5000
+      }).then((response) => {
+        console.log(response);
+        setPokemons(response.data.results);
+        setCurrentPokemonList(response.data.results);
+        setNextLink(response.data.next);
+        setPrevLink(response.data.previous);
+        localStorage.setItem('OriginalPokemon',JSON.stringify(response.data.results));      
+        setIsLoading(false);
+      }).catch(error => {
+        if (error.code === 'ECONNABORTED') {
+          console.log('Request timed out');
+          setIsLoading(true)
+        } else {
+          console.log('Other error:', error);
+          setIsLoading(true)
+        }
+      });
+    };
     
 
   
@@ -161,13 +193,14 @@ function PokeDex() {
             <div className="App">
               <header className="App-header">
                 <ReactLoading type="cylon" color="white" />
+                <button onClick={refresh}>Refresh</button>
               </header>
             </div>
           </>
         ) : (
           <>
           
-            <h1 className="h1-tittle">Welcome to pokedex !</h1>
+            <h1 className="h1-title">Welcome to pokedex !</h1>
             <div className="search-box">
               <MdNavigateBefore
                 style={{ cursor: prevLink ? "pointer" : "default" }}
