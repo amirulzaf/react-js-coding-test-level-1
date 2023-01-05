@@ -94,6 +94,7 @@ function PokeDex() {
 
     const resetButton = () => {
       const pokereset = JSON.parse(localStorage.getItem('OriginalPokemon'));
+      setCurrentPokemonList(pokereset)
       setPokemons(pokereset); // reset pokemons to originalPokemons
       console.log(pokereset); // add this line
     };
